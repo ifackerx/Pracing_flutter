@@ -11,6 +11,9 @@ class Myapp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        fontFamily: 'PrintAble4U',
+      ),
       //  title ของตัว app 
       title: 'My Traing App',
       // widget ตัวแรกที่จะใช้แสดง 
