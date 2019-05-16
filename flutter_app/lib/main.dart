@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/home_screen.dart';
 import 'package:flutter_app/screens/main_screen.dart';
 
 // state less ไม่มีอัพเดทค่าข้อมูลในตัวมันเอง แสดงอยาสงเดียว
@@ -14,7 +15,8 @@ class Myapp extends StatelessWidget {
       title: 'My Traing App',
       // widget ตัวแรกที่จะใช้แสดง 
       // Scafford รูปแบบของ Page (titlebar, button, appbar)
-      home: MainScreen()
+      home: HomeScreen()
+      
     // don't forget semicolon
     );
   }
