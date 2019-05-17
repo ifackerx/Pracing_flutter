@@ -6,6 +6,20 @@ class AddMemberScreen extends StatefulWidget {
 }
 
 class _AddMemberScreenState extends State<AddMemberScreen> {
+  
+  // ส่วนของตัวแปร 
+  DateTime birthDate;
+  // เอาไว้โช
+  String strBirthDate;
+  // text editing ไว้ใช้กับ input form
+  TextEditingController ctrlFirstname = TextEditingController();
+  TextEditingController ctrtlLastname = TextEditingController();
+  TextEditingController ctrlEmail = TextEditingController();
+  TextEditingController ctrlTelephone = TextEditingController();
+  
+  String sex = 'Male';
+  bool isActive = true;
+
   @override
   Widget build(BuildContext context) {
   
@@ -23,8 +37,10 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
       lastDate: new DateTime(_year, _month,_day));
     if (picked != null && picked != _currentDate) {
       setState(() {
-        var formatter = new DateFormat('yyyy-MM-dd');
-        String formatted = formatter.format(picked);
+        var strDate = new DateFormat.MMMMd('th_th')
+          .format(new DateTime(picked.year, picked.month, picked.day));
+        strBirthDate = '$strDate ${picked.year + 543}';
+        birthDate = picked;
       });
     }
   }
@@ -88,7 +104,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                           Text('Birth Date',style: TextStyle(fontSize: 15.0)),
                           FlatButton(
                             onPressed: () => _showDatePicker(),
-                            child: Text('dd/mm/yyyy', style: TextStyle(fontSize: 15.0),),
+                            child: Text(strBirthDate ?? 'Chose your date', style: TextStyle(fontSize: 15.0, color: Colors.pink)),
                           )
                         ],
                       ),
