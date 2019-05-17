@@ -112,6 +112,18 @@ class _HomeScreenState extends State<HomeScreen> {
           // Update the state of the app
         },
       ),
+            ListTile(
+        // icon เป็น img เป็น  text ก็ได้
+        leading: Icon(Icons.person_add),
+        title: Text('สมาชิก Member', style: TextStyle(fontSize: 20.0),),
+        trailing: Icon(Icons.keyboard_arrow_right),
+        subtitle: Text('สมาชิก'),
+        onTap: () {
+          Navigator.of(context).pop();
+          Navigator.of(context).pushNamed('/member');
+
+        },
+      ),
        ListTile(
         // icon เป็น img เป็น  text ก็ได้
         leading: Icon(Icons.account_circle),
@@ -122,6 +134,20 @@ class _HomeScreenState extends State<HomeScreen> {
           // Update the state of the app
         },
       ),
+
+        ListTile(
+        // icon เป็น img เป็น  text ก็ได้
+        leading: Icon(Icons.group),
+        title: Text('ข้อมูลผู้ใช้งานในระบบ', style: TextStyle(fontSize: 20.0),),
+        trailing: Icon(Icons.keyboard_arrow_right),
+        subtitle: Text('iphonex'),
+        onTap: () {
+          Navigator.of(context).pop();
+          Navigator.of(context).pushNamed('/user');
+
+        },
+      ),
+
        ListTile(
         // icon เป็น img เป็น  text ก็ได้
         leading: Icon(Icons.settings),
