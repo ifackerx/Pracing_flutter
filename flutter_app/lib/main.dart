@@ -9,10 +9,18 @@ import 'package:flutter_app/screens/page_one.dart';
 import 'package:flutter_app/screens/page_two.dart';
 import 'package:flutter_app/screens/user_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'utils/database_helper.dart';
 // state less ไม่มีอัพเดทค่าข้อมูลในตัวมันเอง แสดงอยาสงเดียว
 
 // function แรกที่จะ run
-void main() => runApp(Myapp());
+// void main() => runApp(Myapp());
+
+void main() {
+  DatabaseHelper databaseHelper = DatabaseHelper.internal();
+  databaseHelper.initDatabase();
+  runApp(Myapp());
+}
+
 
 class Myapp extends StatelessWidget {
   @override

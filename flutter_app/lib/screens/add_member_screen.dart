@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../utils/database_helper.dart';
+
+
 class AddMemberScreen extends StatefulWidget {
   @override
   _AddMemberScreenState createState() => _AddMemberScreenState();
@@ -7,6 +10,10 @@ class AddMemberScreen extends StatefulWidget {
 
 class _AddMemberScreenState extends State<AddMemberScreen> {
   
+  // ดึง Database มาใช้ จาก flie database helper
+  DatabaseHelper databaseHelper = DatabaseHelper.internal();
+
+  final _formKey = GlobalKey<FormState>();
   // ส่วนของตัวแปร 
   DateTime birthDate;
   // เอาไว้โช
@@ -45,12 +52,47 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
     }
   }
   
-  
+  Future<Null> saveData() async {
+    print(ctrlFirstname.text);
+    print(ctrtlLastname.text);
+    print(sex);
+    print(birthDate);
+    print(ctrlEmail.text);
+    print(ctrlTelephone.text);
+    print(isActive);
+
+    if (_formKey.currentState.validate() && birthDate != null) {
+      Map member = {
+        'firstname' : ctrlFirstname.text,
+        'lastname'  : ctrtlLastname.text,
+        'email'     : ctrlEmail.text,
+        'telephone' : ctrlTelephone.text,
+        'birthDate' : birthDate.toString(),
+      };
+      await databaseHelper.savaData(member);
+      print('saVe;!!');
+    }else{
+      print('Faied');
+    }
+
+  }
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Add new member'),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.save_alt), onPressed: () {},)
+          IconButton(
+            icon: Icon(Icons.save_alt), 
+            onPressed: () {
+              if (_formKey.currentState.validate()) {
+                saveData();
+                print('OK');
+              }else{
+                print('Failed');
+              }
+            }
+            )
         ],
         
       ),
@@ -69,6 +111,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Form(
+                    key: _formKey,
                     child: Column(
                       children: <Widget>[
                         Row(
@@ -77,6 +120,10 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                             SizedBox(width: 15.0),
                             Expanded(
                                 child: TextFormField(
+                                  validator: (String value) {
+                                    if (value.isEmpty) return 'Please enter your name';
+                                  },
+                                  controller: ctrlFirstname,
                                   decoration: InputDecoration(
                                   fillColor: Colors.pink[100],
                                   labelText: 'First Name',
@@ -88,6 +135,10 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                             
                             Expanded(
                                 child: TextFormField(
+                                  validator: (String value) {
+                                    if (value.isEmpty) return 'Please enter your lastname';
+                                  },
+                                controller: ctrtlLastname,
                                 decoration: InputDecoration(
                                   fillColor: Colors.pink[100],
                                   labelText: 'Last Name',
@@ -111,13 +162,21 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
 
 
                         TextFormField(
+                          validator: (String value) {
+                                    if (value.isEmpty) return 'Please enter your email';
+                                  },
                           keyboardType: TextInputType.emailAddress,
+                          controller: ctrlEmail,
                           decoration: InputDecoration(
                             icon: Icon(Icons.email),
                             labelText: 'E-mail'
                           ),
                         ),
                         TextFormField(
+                          validator: (String value) {
+                                    if (value.isEmpty) return 'Please enter your number';
+                                  },
+                          controller: ctrlTelephone,
                           keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
                             icon: Icon(Icons.phone),
@@ -127,15 +186,25 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                         SwitchListTile(
                           value: true, 
                           activeColor: Colors.pink[100],
-                          onChanged: (bool value) {}, 
+                          onChanged: (bool value) {
+                            setState(() {
+                              isActive = value;
+                            });
+                          }, 
                           title: Text('เปิดการใช้งานระบบ'),
                         ),
 
                         ListTile(
+                          
                           title: const Text('Sex'),
                           trailing: new DropdownButton<String>(
-                            value: 'Male',
-                            onChanged: (String newValue) {},
+                            
+                            value: sex,
+                            onChanged: (String newValue) {
+                              setState(() {
+                                sex = newValue;
+                              });
+                            },
                             items: <String>['Male','Female'].map((String value) {
                               return new DropdownMenuItem<String>(
                                 value: value,
